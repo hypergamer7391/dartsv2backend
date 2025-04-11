@@ -3,7 +3,7 @@ const cors = require('cors');
 const app = express();
 const port = 2000;
 
-app.use(cors());
+app.use(cors({ origin: 'https://dartsappv2.netlify.app/' }));
 app.use(express.json());
 
 // Fake-"Datenbank"
