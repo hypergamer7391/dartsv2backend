@@ -2,8 +2,27 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const port = 2000;
-
-app.use(cors({ origin: 'https://dartsappv2.netlify.app' }));
+// Liste erlaubter Origins
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://dartsappv2.netlify.app',
+    'http://127.0.0.1:3000'
+  ];
+  
+  // CORS-Optionen dynamisch festlegen
+  const corsOptions = {
+    origin: function (origin, callback) {
+      // Falls keine Origin (z.B. bei mobilen Apps oder Postman), immer zulassen
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Nicht erlaubter Origin: ' + origin));
+      }
+    }
+  };
+  
+  app.use(cors(corsOptions));
 app.use(express.json());
 
 // Fake-"Datenbank"
