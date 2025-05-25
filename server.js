@@ -27,8 +27,7 @@ app.use(express.json());
 
 // Fake-"Datenbank"
 let games = [
-  { id: 1, spieler: ['Max', 'Tom'], punkte: [301, 290] },
-  { id: 2, spieler: ['Anna', 'Ben'], punkte: [250, 280] }
+  
 ];
 
 // Alle Spiele abrufen
@@ -65,6 +64,8 @@ app.post('/api/games', (req, res) => {
         wurf3_feld: 0,
         alle_wurfe: [],
         average: 0,
+        start: start_score,
+        legs: req.body.plegs1
 
     },
     {
@@ -79,8 +80,13 @@ app.post('/api/games', (req, res) => {
         wurf3_feld: 0,
         alle_wurfe: [],
         average: 0,
+        start: start_score,
+        legs: req.body.plegs2
 
-    }]
+    }],
+    am_zug:1,
+    bereits_geworfen:0,
+    max_legs: req.body.legs
   };
   games.push(neuesSpiel);
   res.status(201).json(neuesSpiel);
@@ -90,9 +96,14 @@ app.post('/api/games', (req, res) => {
 app.post('/api/game/update', (req, res) => {
 
     console.log(req.body.id)
-    const game = games.find(game => game.id === req.body.id);
+    const newGame = req.body
+    const updatedGames = games.map(game =>
+      game.id === newGame.id ? newGame : game
+    );
+    games = updatedGames
 
-    console.log(game)
+    console.log(games)
+    console.log(newGame)
     res.sendStatus(201)
 })
 
