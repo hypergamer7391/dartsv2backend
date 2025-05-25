@@ -90,6 +90,52 @@ app.post('/api/games', (req, res) => {
   };
   games.push(neuesSpiel);
   res.status(201).json(neuesSpiel);
+  console.log(neuesSpiel)
+});
+
+app.post('/api/games/leg', (req, res) => {
+  const start_score = req.body.punkte[0]
+  console.log(start_score)
+  const neuesSpiel = {
+    id: Date.now(),
+    players: [{
+        name: req.body.spieler[0],
+        score: start_score,
+        score_voher: start_score,
+        wurf1: 0,
+        wurf2: 0,
+        wurf3: 0,
+        wurf1_feld: 0,
+        wurf2_feld: 0,
+        wurf3_feld: 0,
+        alle_wurfe: req.body.players[0].alle_wurfe,
+        average: req.body.players[0].average,
+        start: start_score,
+        legs: req.body.players[0].legs
+
+    },
+    {
+        name: req.body.spieler[1],
+        score: start_score,
+        score_voher: start_score,
+        wurf1: 0,
+        wurf2: 0,
+        wurf3: 0,
+        wurf1_feld: 0,
+        wurf2_feld: 0,
+        wurf3_feld: 0,
+        alle_wurfe: req.body.players[1].alle_wurfe,
+        average: req.body.players[1].average,
+        start: start_score,
+        legs: req.body.players[1].legs
+
+    }],
+    am_zug: (req.body.players[1].legs+ req.body.players[0].legs )%2+1,
+    bereits_geworfen:0,
+    max_legs: req.body.legs
+  };
+  games.push(neuesSpiel);
+  res.status(201).json(neuesSpiel);
   console.log("Neues game")
 });
 
