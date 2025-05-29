@@ -86,7 +86,9 @@ app.post('/api/games', (req, res) => {
     }],
     am_zug:1,
     bereits_geworfen:0,
-    max_legs: req.body.legs
+    max_legs: req.body.legs,
+    doppelout: req.body.doppelout,
+
   };
   games.push(neuesSpiel);
   res.status(201).json(neuesSpiel);
@@ -132,7 +134,8 @@ app.post('/api/games/leg', (req, res) => {
     }],
     am_zug: (req.body.players[1].legs+ req.body.players[0].legs )%2+1,
     bereits_geworfen:0,
-    max_legs: req.body.legs
+    max_legs: req.body.legs,
+    doppelout: req.body.doppelout
   };
   games.push(neuesSpiel);
   res.status(201).json(neuesSpiel);
